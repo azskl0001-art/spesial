@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171027">
+<title>Una sorpresa para ti</title>
+<style>
+  *{box-sizing:border-box}
+  :root{--night:#171027;--purple:#35204c;--orange:#ff9d3d;--pink:#ff6f91}
+  body{margin:0;min-height:100svh;overflow:hidden;display:grid;place-items:center;
+    font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;
+    background:radial-gradient(ellipse at 50% 80%,#45234f 0%,#21152f 48%,#100d1d 100%)}
+  .stars,.stars:before,.stars:after{position:absolute;inset:0;content:"";pointer-events:none;
+    background-image:radial-gradient(2px 2px at 12% 20%,#fff 45%,transparent 55%),
+    radial-gradient(1px 1px at 72% 16%,#ffd6a0 45%,transparent 55%),
+    radial-gradient(2px 2px at 86% 62%,#fff 45%,transparent 55%),
+    radial-gradient(1px 1px at 28% 73%,#ffd6a0 45%,transparent 55%),
+    radial-gradient(1px 1px at 58% 43%,#fff 45%,transparent 55%),
+    radial-gradient(2px 2px at 42% 11%,#ffb0c4 45%,transparent 55%)}
+  .moon{position:absolute;top:8%;right:12%;width:90px;height:90px;border-radius:50%;
+    background:#fff0c8;box-shadow:0 0 38px #ffdfa477}
+  .moon:after{content:"";position:absolute;left:-13px;top:-7px;width:86px;height:86px;border-radius:50%;background:#21152f}
+  .hill{position:absolute;bottom:-18%;width:120%;height:43%;border-radius:50% 50% 0 0;background:#171a2c;left:-10%}
+  .hill.two{bottom:-25%;left:20%;background:#101523}
+  .card{position:relative;z-index:2;width:min(90vw,440px);padding:34px 24px 30px;text-align:center;
+    border:1px solid #ffffff20;border-radius:28px;background:#241934c9;backdrop-filter:blur(9px);
+    box-shadow:0 18px 70px #05020b77;animation:rise .8s ease-out}
+  .emoji{font-size:66px;filter:drop-shadow(0 7px 18px #ff8b3c45);animation:bob 3s ease-in-out infinite}
+  h1{font-size:clamp(1.7rem,6vw,2.25rem);line-height:1.15;margin:12px 0 10px}
+  p{color:#e0d5ec;margin:0 auto 24px;line-height:1.55}
+  .buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  button{border:0;border-radius:999px;padding:13px 24px;font-weight:750;font-size:1rem;cursor:pointer;transition:transform .18s,filter .18s}
+  button:hover{transform:translateY(-3px);filter:brightness(1.08)}
+  .yes{color:#24152d;background:linear-gradient(135deg,#ffc16d,#ff8b58);box-shadow:0 8px 25px #ff8b5833}
+  .no{color:#fff;background:#ffffff14;border:1px solid #ffffff35}
+  .small{margin-top:20px;font-size:.78rem;color:#bba9ce}
+  .float{position:absolute;font-size:clamp(22px,4vw,36px);opacity:.8;animation:drift 8s ease-in-out infinite}
+  .f1{left:8%;top:23%}.f2{right:9%;bottom:23%;animation-delay:-3s}.f3{left:17%;bottom:12%;animation-delay:-5s}
+  .hidden{display:none}
+  .reveal{font-size:1.1rem;padding:10px 0 0;animation:rise .5s ease-out}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-9px) rotate(3deg)}}
+  @keyframes drift{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-22px) rotate(8deg)}}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-height:600px){.card{padding:18px}.emoji{font-size:48px}.moon{width:60px;height:60px}.moon:after{width:58px;height:58px}}
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="stars"></div><div class="moon"></div><div class="hill"></div><div class="hill two"></div>
+<div class="float f1">✦</div><div class="float f2">🦇</div><div class="float f3">✧</div>
+<main class="card">
+  <div class="emoji" id="hero">🎃</div>
+  <h1 id="heading">¿Quieres vivir una noche especial conmigo?</h1>
+  <p id="message">Tengo una pequeña sorpresa para ti… ✨</p>
+  <div class="buttons" id="buttons">
+    <button class="yes" id="yes">¡Sí! 🎉</button>
+    <button class="no" id="no">No 🙈</button>
+  </div>
+  <div class="reveal hidden" id="reveal">¡Sabía que dirías que sí! 🧡<br>Prepárate para una sorpresa inolvidable ✨</div>
+  <div class="small">✦ una pequeña sorpresa ✦</div>
+</main>
+<script>
+const no = document.getElementById('no');
+const yes = document.getElementById('yes');
+let dodges = 0;
+no.addEventListener('click', () => {
+  dodges++;
+  const messages = ['¿Seguro? 🥺','Piénsalo otra vez… 👀','Dale una oportunidad ✨','Ese botón está tímido 😅'];
+  document.getElementById('message').textContent = messages[(dodges-1)%messages.length];
+  if (dodges >= 2) {
+    no.style.transform = `translate(${Math.random()*24-12}px, ${Math.random()*16-8}px)`;
+  }
+});
+yes.addEventListener('click', () => {
+  document.getElementById('hero').textContent = '🧡';
+  document.getElementById('heading').textContent = '¡Sabía que aceptarías!';
+  document.getElementById('message').textContent = 'Esta sorpresa es para ti. ✨';
+  document.getElementById('buttons').classList.add('hidden');
+  document.getElementById('reveal').classList.remove('hidden');
+  for(let i=0;i<22;i++){
+    const bit=document.createElement('span');
+    bit.textContent=['✨','🧡','🎃','✦','🦇'][Math.floor(Math.random()*5)];
+    bit.style.cssText=`position:absolute;left:${Math.random()*100}%;top:${Math.random()*100}%;font-size:${16+Math.random()*18}px;pointer-events:none;animation:rise 1.2s ease-out both;z-index:5`;
+    document.body.appendChild(bit);
+    setTimeout(()=>bit.remove(),1600);
+  }
+});
+</script>
+</body>
+</html>
